@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
         type: String,
         maxlength: 50
     },
-    email: {
+    loginId: {
         type: String,
         trim: true,
         unique: 1
@@ -54,17 +54,15 @@ userSchema.pre('save', function( next ) {
     }
 });
 
-userSchema.comparePassword = function(plainPassword, cb) {
-
+userSchema.methods.comparePassword = function(plainPassword, cb) {
     // 암호화된 비밀번호 일치하는지 확인
     bcrypt.compare(plainPassword, this.password, function(err, isMatch) {
-        if(err) return cb(err),
+        if(err) return cb(err);
         cb(null, isMatch)
     })
 }
 
 userSchema.methods.generateToken = function(cb) {
-    
     var user = this;
 
     // jsonwebtoken을 이용해서 token 생성

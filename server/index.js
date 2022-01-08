@@ -34,32 +34,33 @@ app.post('/api/users/register', (req, res) => {
 })
 
 app.post('/api/users/login', (req, res) => {
+
     // 요청된 이메일을 데이터베이스에서 찾음
-    User.findOne({ email: req.body.email }, (err, userInfo) => {
-        if(!userInfo) {
+    User.findOne({ loginId: req.body.loginId }, (err, user) => {
+        if(!user) {
             return res.json({
                 loginSuccess: false,
-                message: "일치하는 이메일이 없습니다."
+                message: "일치하는 ID가 없습니다."
             })
         }
-    })
 
-    // 요청된 이메일이 데이터 베이스에 있다면 비밀번호가 일치하는지 확인
+        // 요청된 이메일이 데이터 베이스에 있다면 비밀번호가 일치하는지 확인
+        user.comparePassword(req.body.password, (err, isMatch) => {
+            if(!isMatch)
+                return res.json({ loginSuccess: false, message: "비밀번호가 다릅니다." })
 
-    user.comparePassword(req.body.password, (err, isMatch) => {
-        if(!isMatch)
-            return res.json({ loginSuccess: false, message: "비밀번호가 다릅니다." })
-
-        // 비밀번호가 일치하면 토큰 생성
-        user.generateToken((err, user) => {
-            if(err) return res.status(400).send(err);
+            // 비밀번호가 일치하면 토큰 생성
+            user.generateToken((err, user) => {
+                if(err) return res.status(400).send(err);
 
             // 토큰을 저장한다. where?? 쿠키
             res.cookie("x_auth", user.token)
             .status(200)
             .json({ loginSuccess: true, userId: user._id })
+            })
         })
     })
+
 })
 
 app.get('/api/users/auth', auth , (req, res) => {
@@ -68,7 +69,7 @@ app.get('/api/users/auth', auth , (req, res) => {
         _id: req.user._id,
         isAdmin: req.user.role === 0 ? false : true,
         isAuth: true,
-        email: req.user.email,
+        loginId: req.user.loginId,
         name: req.user.name,
         role: req.user.role,
         image: req.user.image
