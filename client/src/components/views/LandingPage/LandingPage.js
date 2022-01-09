@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Button } from 'primereact/button';
+
 
 function LandingPage() {
     let navigate = useNavigate();
@@ -27,9 +29,9 @@ function LandingPage() {
         }}>
             <h2>시작 페이지</h2>
 
-            <button onClick={onClickHandler}>
+            <Button onClick={onClickHandler}>
                 로그아웃
-            </button>
+            </Button>
         </div>
     )
 }
