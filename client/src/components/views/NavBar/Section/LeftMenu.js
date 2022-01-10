@@ -30,8 +30,7 @@ function LeftMenu() {
                 model={items}
             /> */}
             <TabMenu model={items} />
-            {/* <Menu model={items} />
-            <Menu1 model={items} /> */}
+            {/* <Menu model={items} /> */}
         </div>
     )
 }
