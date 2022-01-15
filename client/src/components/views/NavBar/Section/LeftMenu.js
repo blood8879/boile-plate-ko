@@ -22,8 +22,6 @@ function LeftMenu() {
         },
     ];
 
-    const start = <h2>U-tube</h2>
-
     return (
         <div className='card' style={{float: 'left'}}>
             {/* <Menubar
