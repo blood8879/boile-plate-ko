@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { TabMenu } from 'primereact/tabmenu';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { USER_SERVER } from '../../../Config'
+import { Menu } from 'antd';
 
 function RightMenu() {
     const [activeIndex] = useState(3);
@@ -15,6 +15,7 @@ function RightMenu() {
         {label: 'Login', command: () => { window.location="login" }},        
     ];
     const loginitems = [
+        {label: 'Video', command: () => { window.location="video/upload"}},
         {label: 'Logout', command: () => {logoutHandler()}}
     ]
 
@@ -30,14 +31,16 @@ function RightMenu() {
 
     if(user.userData && !user.userData.isAuth) {
         return (
-            <div className='card'>
-                <TabMenu model={items} activeIndex={activeIndex} />
-            </div>
+            <Menu>
+                <Menu.Item key="mail">
+                    <a href='/login'>SignIn</a>
+                </Menu.Item>
+            </Menu>
         )
     } else {
         return (
             <div>
-                <TabMenu model={loginitems} activeIndex={activeIndex} />
+                {/* <TabMenu model={loginitems} activeIndex={activeIndex} /> */}
             </div>
         )
     }

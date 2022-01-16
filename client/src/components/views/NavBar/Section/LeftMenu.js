@@ -1,35 +1,25 @@
 import React from 'react'
-import { Menu } from 'primereact/menu';
-import { Menu as Menu1 } from 'primereact/menu';
-import { TabMenu } from 'primereact/tabmenu';
-import { Menubar } from 'primereact/menubar';
+import { Menu } from 'antd';
+const { SubMenu } = Menu;
+const MenuItemGroup = Menu.ItemGroup;
 
-function LeftMenu() {
-    const items = [
-        {
-            label: 'Item1',
-            items: [
-                {label: 'option1'},
-                {label: 'option2'}                    
-            ]
-        },
-        {
-            label: 'Item2',
-            items: [
-                {label: 'option1'},
-                {label: 'option2'}                    
-            ]
-        },
-    ];
-
+function LeftMenu(props) {
     return (
-        <div className='card' style={{float: 'left'}}>
-            {/* <Menubar
-                model={items}
-            /> */}
-            <TabMenu model={items} />
-            {/* <Menu model={items} /> */}
-        </div>
+        <Menu mode={props.mode}>
+            <Menu.Item key="mail">
+                <a href='/'>Home</a>
+            </Menu.Item>
+            <SubMenu key="sub1" title="Blogs">
+                <MenuItemGroup title="Item1">
+                    <Menu.Item key="setting:1">Option 1</Menu.Item>
+                    <Menu.Item key="setting:2">Option 2</Menu.Item>
+                </MenuItemGroup>
+                <MenuItemGroup title="Item2">
+                    <Menu.Item key="setting:3">Option 1</Menu.Item>
+                    <Menu.Item key="setting:4">Option 2</Menu.Item>
+                </MenuItemGroup>
+            </SubMenu>
+        </Menu>
     )
 }
 
